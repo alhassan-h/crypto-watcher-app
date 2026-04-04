@@ -1,7 +1,10 @@
-import { Activity } from "lucide-react";
+import { Activity, Sun, Moon } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTheme } from "@/hooks/use-theme";
 
 const DashboardHeader = () => {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <motion.header
       initial={{ opacity: 0, y: -20 }}
@@ -21,12 +24,21 @@ const DashboardHeader = () => {
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gain opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-gain" />
-        </span>
-        Live
+      <div className="flex items-center gap-3">
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground transition-colors"
+          aria-label="Toggle theme"
+        >
+          {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+        </button>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gain opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-gain" />
+          </span>
+          Live
+        </div>
       </div>
     </motion.header>
   );
