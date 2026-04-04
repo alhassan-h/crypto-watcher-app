@@ -1,16 +1,35 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { mockCryptoData, CryptoData } from "@/data/mockCryptoData";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import MetricsRow from "@/components/dashboard/MetricsRow";
+import CryptoTable from "@/components/dashboard/CryptoTable";
+import AlertsSection from "@/components/dashboard/AlertsSection";
+import PriceChart from "@/components/dashboard/PriceChart";
+import CoinDetailModal from "@/components/dashboard/CoinDetailModal";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const [selectedCoin, setSelectedCoin] = useState<CryptoData | null>(null);
+  const data = mockCryptoData;
+
+  // Show chart for top gainer by default
+  const topGainer = data.reduce((a, b) => (b.price_change_24h > a.price_change_24h ? b : a));
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen bg-background px-4 py-6 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <DashboardHeader />
+      <MetricsRow data={data} />
+      <CryptoTable data={data} onCoinClick={setSelectedCoin} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <AlertsSection data={data} />
+        <PriceChart coin={topGainer} />
+      </div>
+      <CoinDetailModal
+        coin={selectedCoin}
+        open={!!selectedCoin}
+        onClose={() => setSelectedCoin(null)}
+      />
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
