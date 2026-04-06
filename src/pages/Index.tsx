@@ -13,6 +13,7 @@ import { Loader2 } from "lucide-react";
 const Index = () => {
   const [selectedCoin, setSelectedCoin] = useState<CryptoData | null>(null);
   const { data, isLoading, isError } = useCryptoData();
+  useWebhookPing(30_000);
 
   if (isLoading) {
     return (
