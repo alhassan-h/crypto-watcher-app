@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CryptoData } from "@/data/mockCryptoData";
 import { useCryptoData } from "@/hooks/use-crypto-data";
+import { useWebhookPing } from "@/hooks/use-webhook-ping";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import MetricsRow from "@/components/dashboard/MetricsRow";
 import CryptoTable from "@/components/dashboard/CryptoTable";
@@ -12,6 +13,7 @@ import { Loader2 } from "lucide-react";
 const Index = () => {
   const [selectedCoin, setSelectedCoin] = useState<CryptoData | null>(null);
   const { data, isLoading, isError } = useCryptoData();
+  useWebhookPing(30_000);
 
   if (isLoading) {
     return (
